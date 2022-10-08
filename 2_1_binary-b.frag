@@ -1,5 +1,9 @@
 #version 300 es
 
+// precision lowp int;
+// precision lowp float;
+// precision mediump int;
+// precision mediump float;
 precision highp int;
 precision highp float;
 
@@ -10,14 +14,19 @@ uniform float u_time;
 
 void main() {
   vec2 pos = gl_FragCoord.xy / u_resolution.xy;
-  pos *= vec2(32.0, 9.0);
-  uint[6] a = uint[](
+  pos *= vec2(32.0, 11.0);
+  uint[11] a = uint[](
     uint(u_time),
-    floatBitsToUint(1.0),
-    floatBitsToUint(3.0),
-    floatBitsToUint(3.1415926),
     floatBitsToUint(acos(-1.0)),
-    floatBitsToUint(0.0)
+    floatBitsToUint(3.1415926),
+    floatBitsToUint(3.141592),
+    floatBitsToUint(3.14159),
+    floatBitsToUint(3.1415),
+    floatBitsToUint(3.141),
+    floatBitsToUint(3.14),
+    floatBitsToUint(3.1),
+    floatBitsToUint(3.0),
+    uint(u_time)
   );
   
   if (fract(pos.x) < 0.1) {
