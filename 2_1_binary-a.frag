@@ -10,17 +10,18 @@ uniform float u_time;
 
 void main() {
   vec2 pos = gl_FragCoord.xy / u_resolution.xy;
-  pos *= vec2(32.0, 9.0);
-  uint[9] a = uint[](
-    uint(u_time),
-    0xbu,
-    9u,
-    0xbu ^ 9u,
-    0xffffffffu,
-    0xffffffffu + uint(u_time),
-    floatBitsToUint(floor(u_time)),
-    floatBitsToUint(-floor(u_time)),
-    floatBitsToUint(11.5625)
+  pos *= vec2(32.0, 10.0);
+  uint[10] a = uint[](
+    floatBitsToUint(1.0),
+    floatBitsToUint(2.0),
+    floatBitsToUint(3.0),
+    floatBitsToUint(4.0),
+    floatBitsToUint(5.0),
+    floatBitsToUint(6.0),
+    floatBitsToUint(7.0),
+    floatBitsToUint(8.0),
+    floatBitsToUint(9.0),
+    floatBitsToUint(10.0)
   );
   
   if (fract(pos.x) < 0.1) {
