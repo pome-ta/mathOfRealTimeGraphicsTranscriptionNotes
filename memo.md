@@ -2,7 +2,6 @@
 
 ## `int channel` でのチャンネル分け
 
-
 `2.0` の所で分け、`0` からの整数で管理？
 
 ``` .glsl
@@ -19,3 +18,4 @@ channel = int(2.0 * gl_FragCoord.x / u_resolution.x);
 ## 写経開始
 
 vscode やらVim やら使いながら写経してく
+
