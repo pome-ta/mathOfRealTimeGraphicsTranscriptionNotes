@@ -70,13 +70,13 @@ vec3 biLinearInterpolation23(vec2 p) {
     f[1]
   );
   outRGB.y = mix(
-    mix(v[1], v[2], f[0]),
-    mix(v[3], v[0], f[0]),
+    mix(v[0], v[1], f[0]),
+    mix(v[2], v[3], f[0]),
     f[1]
   );
   outRGB.z = mix(
-    mix(v[2], v[3], f[0]),
     mix(v[0], v[1], f[0]),
+    mix(v[2], v[3], f[0]),
     f[1]
   );
   return outRGB;
