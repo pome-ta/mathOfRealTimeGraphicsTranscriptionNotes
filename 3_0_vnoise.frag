@@ -45,22 +45,23 @@ float hash31(vec3 p) {
 
 
 float vnoise21(vec2 p) {
+  //2 次元値ノイズ
   vec2 n = floor(p);
   float[4] v;
   for (int j = 0; j < 2; j++) {
     for (int i = 0; i < 2; i++) {
-      v[i + 2 * j] = hash21(n + vec2(i, j));
+      v[i + 2 * j] = hash21(n + vec2(i, j)); // マスの 4 頂点のハッシュ値
     }
   }
   vec2 f = fract(p);
-  if (channel == 1) {
+  if (channel == 1) { // 中央 : エルミート補間
     f = f * f * (3.0 - 2.0 * f);
   }
   return mix(
     mix(v[0], v[1], f[0]),
     mix(v[2], v[3], f[0]),
     f[1]
-  );
+  );  // 左 : 双線形補間
 }
 
 float vnoise31(vec3 p) {
@@ -91,12 +92,12 @@ float vnoise31(vec3 p) {
 void main() {
   vec2 pos = gl_FragCoord.xy / min(u_resolution.x, u_resolution.y);
   channel = int(gl_FragCoord.x * 3.0 / u_resolution.y);
-  pos = 16.0 * pos + u_time;
+  pos = 16.0 * pos + u_time;  //[0,10] 区間にスケールして移動
 
   if (channel < 2) {
-    fragColor = vec4(vnoise21(pos));
+    fragColor = vec4(vnoise21(pos)); // 左・中央 : 2 次元値ノイズ
   } else {
-    fragColor = vec4(vnoise31(vec3(pos, u_time)));
+    fragColor = vec4(vnoise31(vec3(pos, u_time))); // 右 : 3 次元値ノイズ
   }
 
   fragColor.a = 1.0;
