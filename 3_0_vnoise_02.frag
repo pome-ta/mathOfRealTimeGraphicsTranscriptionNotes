@@ -29,8 +29,8 @@ float hash21(vec2 p) {
   return float(uhash22(n).x) / float(UINT_MAX);
 }
 
-float biLinearInterpolation21(vec2 p) {
-  //2 次元値ノイズ : 双線形補間
+float hermiteInterpolation21(vec2 p) {
+  //2 次元値ノイズ : エルミート補間
   vec2 n = floor(p);
   float[4] v;
   for (int j = 0; j < 2; j++) {
@@ -39,6 +39,7 @@ float biLinearInterpolation21(vec2 p) {
     }
   }
   vec2 f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
   return mix(
     mix(v[0], v[1], f[0]),
     mix(v[2], v[3], f[0]),
@@ -52,6 +53,6 @@ void main() {
   
   pos = 16.0 * pos + u_time;
   
-  fragColor = vec4(biLinearInterpolation21(pos));
+  fragColor = vec4(hermiteInterpolation21(pos));
   fragColor.a = 1.0;
 }
