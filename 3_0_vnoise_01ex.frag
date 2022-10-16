@@ -50,23 +50,29 @@ vec3 biLinearInterpolation23(vec2 p) {
   //2 次元値ノイズ : 双線形補間
   vec2 n = floor(p);
   float[4] vx;
+  float counter = 0.0;
   for (int jx = 0; jx < 2; jx++) {
     for (int ix = 0; ix < 2; ix++) {
-      vx[ix + 2 * jx] = hash21(n + vec2(ix, jx) + uintBitsToFloat(k.x)); // マスの 4 頂点のハッシュ値
+      // マスの 4 頂点のハッシュ値
+      vx[ix + 2 * jx] = hash21(n + vec2(ix, jx) + counter);
     }
   }
   
   float[4] vy;
+  counter += 1.0;
   for (int jy = 0; jy < 2; jy++) {
     for (int iy = 0; iy < 2; iy++) {
-      vy[iy + 2 * jy] = hash21(n + vec2(iy, jy) + uintBitsToFloat(k.y)); // マスの 4 頂点のハッシュ値
+      // マスの 4 頂点のハッシュ値
+      vy[iy + 2 * jy] = hash21(n + vec2(iy, jy) + counter);
     }
   }
   
   float[4] vz;
+  counter += 1.0;
   for (int jz = 0; jz < 2; jz++) {
     for (int iz = 0; iz < 2; iz++) {
-      vz[iz + 2 * jz] = hash21(n + vec2(iz, jz) + uintBitsToFloat(k.z)); // マスの 4 頂点のハッシュ値
+      // マスの 4 頂点のハッシュ値
+      vz[iz + 2 * jz] = hash21(n + vec2(iz, jz) + counter);
     }
   }
   vec2 f = fract(p);
@@ -105,3 +111,4 @@ void main() {
   fragColor.xyz = biLinearInterpolation23(pos);
   fragColor.a = 1.0;
 }
+
