@@ -1,12 +1,12 @@
 #version 300 es
 precision highp float;
 
-uniform vec2 resolution;
+uniform vec2 u_resolution;
 
 out vec4 fragColor;
 
 void main() {
-  vec2 pos = gl_FragCoord.xy / resolution.xy;
+  vec2 pos = gl_FragCoord.xy / u_resolution.xy;
   fragColor = vec4(1.0, pos, 1.0);
 }
 

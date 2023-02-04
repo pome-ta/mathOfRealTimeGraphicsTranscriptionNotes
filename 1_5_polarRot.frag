@@ -1,8 +1,8 @@
 #version 300 es
 precision highp float;
 
-uniform vec2 resolution;
-uniform float time;
+uniform vec2 u_resolution;
+uniform float u_time;
 
 out vec4 fragColor;
 
@@ -26,7 +26,7 @@ vec2 pol2xy(vec2 pol) {
 }
 
 vec3 tex(vec2 st) {
-  float t = 0.2 * time;
+  float t = 0.2 * u_time;
   vec3 circ = vec3(pol2xy(vec2(t, 0.5)) + 0.5, 1.0);
   vec3[3] col3 = vec3[](circ.rgb, circ.gbr, circ.brg);
   
@@ -39,7 +39,7 @@ vec3 tex(vec2 st) {
 
 int channel;  // 表示するシェーダーのチャンネル
 void main() {
-  vec2 pos = gl_FragCoord.xy / resolution.xy;
+  vec2 pos = gl_FragCoord.xy / u_resolution.xy;
   
   pos = 2.0 * pos.xy - vec2(1.0);
   pos = xy2pol(pos);
