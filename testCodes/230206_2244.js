@@ -11,7 +11,10 @@ float fractSin11(float x) {
 }
 
 void main(){
-  vec2 pos = gl_FragCoord.xy / u_resolution.xy;
-  fragColor = vec4(fractSin11(u_time),1.0, 1.0, 1.0);
+  vec2 pos = gl_FragCoord.xy;
+  pos += floor(60.0 * u_time);
+  vec2 p = gl_FragCoord.xy / u_resolution.xy;
+  vec3 colors = vec3(fractSin11(pos.x));
+  fragColor = vec4(colors, 1.0);
 }
 
