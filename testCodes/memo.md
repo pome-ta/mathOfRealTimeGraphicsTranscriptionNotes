@@ -1,3 +1,25 @@
+# 📝 2023/02/08
+
+## `precision highp`
+
+`highp` は、32bit 精度
+
+``` .frag
+precision highp int;
+precision highp float;
+```
+
+と、浮動小数点数や整数を指定する
+
+## メモ場所
+
+
+[pome-ta/rustTest230204: Created with CodeSandbox](https://github.com/pome-ta/rustTest230204)
+
+検証のため、行ったり来たりしてるから、点在しちゃうかも
+
+
+
 # 📝 2023/02/06
 
 全般的に忘れたので、一から再度写経する。
