@@ -11,6 +11,19 @@ precision highp float;
 
 と、浮動小数点数や整数を指定する
 
+
+## シフト
+
+```.frag
+uint b = a[int(pos.y)]; 
+b = (b << uint(pos.x)) >> 31;
+fragColor = vec4(vec3(b), 1.0); 
+```
+
+まだ、雰囲気
+
+
+
 ## メモ場所
 
 
