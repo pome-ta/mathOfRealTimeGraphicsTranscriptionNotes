@@ -21,6 +21,7 @@ uint uhash11(uint n) {
 uint uuu(uint n) {
   n ^= (n << 1);  // 1左シフトして`XOR`
   n ^= (n >> 1);  // 1右シフトして`XOR`
+  n *= k;         // 算術積
   return n;
 }
 
@@ -43,9 +44,11 @@ void main() {
   
   if (fract(pos.x) < 0.1) {
     if (floor(pos.x) == 1.0) {
-      fragColor = vec4(1, 0, 0, 1);  // 赤区切り
+      fragColor = vec4(1.0, 0.0, 0.0, 1.0);  // 赤区切り
     } else if (floor(pos.x) == 9.0) {
-      fragColor = vec4(0, 1, 0, 1);  // 緑区切り
+      fragColor = vec4(1.0, 0.0, 1.0, 1.0);  // マゼンタ区切り
+    } else if (mod(floor(pos.x), 4.0) == 0.0){
+      fragColor = vec4(0.0, 1.0, 1.0, 1.0);  // シアン区切り
     } else {
       fragColor = vec4(0.5);
     }
