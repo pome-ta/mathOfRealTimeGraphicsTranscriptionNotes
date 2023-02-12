@@ -23,7 +23,7 @@ uint uuu(uint n) {
   n ^= (n >> 1);  // 1右シフトして`XOR`
   n *= k;         // 算術積
   n ^= (n << 1);  // 1左シフトして`XOR`
-  return n;
+  return n *k;
 }
 
 
