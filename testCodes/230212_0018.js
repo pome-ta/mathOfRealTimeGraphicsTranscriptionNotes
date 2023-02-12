@@ -9,6 +9,7 @@ uniform vec2 u_resolution;
 uniform float u_time;
 
 uint k = 0x456789abu;// 算術積に使う大きな桁数の定数
+const uint UINT_MAX = 0xffffffffu;
 
 uint uhash11(uint n) {
   n ^= (n << 1);  // 1左シフトして`XOR`
@@ -31,16 +32,17 @@ uint uuu(uint n) {
 void main() {
   vec2 pos = gl_FragCoord.xy / u_resolution.xy;
   pos *= vec2(32.0, 9.0);
+  float u = float(uuu(floatBitsToUint(1.0))) / float(UINT_MAX);
   uint[9] a = uint[](
     uuu(floatBitsToUint(1.0)),
-    1u,
-    2u,
-    3u,
-    4u,
-    5u,
-    6u,
-    7u,
-    8u
+    floatBitsToUint(u),
+    floatBitsToUint(float(uuu(floatBitsToUint(1.0)))),
+    UINT_MAX,
+    floatBitsToUint(float(UINT_MAX)),
+    0u,
+    0u,
+    0u,
+    0u
   );
   
   if (fract(pos.x) < 0.1) {
