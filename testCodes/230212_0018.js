@@ -35,11 +35,11 @@ void main() {
   float u = float(uuu(floatBitsToUint(1.0))) / float(UINT_MAX);
   uint[9] a = uint[](
     uuu(floatBitsToUint(1.0)),
-    floatBitsToUint(u),
     floatBitsToUint(float(uuu(floatBitsToUint(1.0)))),
+    0u,
+    floatBitsToUint(u),
     UINT_MAX,
     floatBitsToUint(float(UINT_MAX)),
-    0u,
     0u,
     0u,
     0u
