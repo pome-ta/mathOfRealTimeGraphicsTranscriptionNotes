@@ -23,10 +23,11 @@ uint uhash11(uint n) {
 void main() {
   vec2 pos = gl_FragCoord.xy / u_resolution.xy;
   pos *= vec2(32.0, 9.0);
-  uint u = uhash11(floatBitsToUint(1.0));
+  uint u = uhash11(floatBitsToUint(-1.2));
   float fu = float(u);
   float fm = float(UINT_MAX);
   uint[9] a = uint[](
+    floatBitsToUint(-1.2),
     u,
     floatBitsToUint(fu),
     0u,
@@ -34,7 +35,6 @@ void main() {
     floatBitsToUint(fm),
     0u,
     floatBitsToUint(fu / fm),
-    0u,
     0u
   );
   
