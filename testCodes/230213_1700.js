@@ -19,28 +19,21 @@ uint uhash11(uint n) {
   return n * k;   // 算術積
 }
 
-uint uuu(uint n) {
-  n ^= (n << 1);  // 1左シフトして`XOR`
-  n ^= (n >> 1);  // 1右シフトして`XOR`
-  n *= k;         // 算術積
-  n ^= (n << 1);  // 1左シフトして`XOR`
-  return n *k;
-}
-
-
 
 void main() {
   vec2 pos = gl_FragCoord.xy / u_resolution.xy;
   pos *= vec2(32.0, 9.0);
-  float u = float(uhash11(floatBitsToUint(1.0))) / float(UINT_MAX);
+  uint u = uhash11(floatBitsToUint(1.0));
+  float fu = float(u);
+  float fm = float(UINT_MAX);
   uint[9] a = uint[](
-    uhash11(floatBitsToUint(1.0)),
-    floatBitsToUint(float(uhash11(floatBitsToUint(1.0)))),
+    u,
+    floatBitsToUint(fu),
     0u,
-    floatBitsToUint(u),
     UINT_MAX,
-    floatBitsToUint(float(UINT_MAX)),
+    floatBitsToUint(fm),
     0u,
+    floatBitsToUint(fu / fm),
     0u,
     0u
   );
