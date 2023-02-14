@@ -23,6 +23,7 @@ void main() {
     floatBitsToUint(11.5625)
   );
   
+  
   if (fract(pos.x) < 0.1) {
     if (floor(pos.x) == 1.0) {
       fragColor = vec4(1, 0, 0, 1);
