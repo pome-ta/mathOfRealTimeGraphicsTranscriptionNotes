@@ -11,11 +11,11 @@ uniform float u_time;
 void main() {
   vec2 pos = gl_FragCoord.xy / u_resolution.xy;
   pos *= vec2(32.0, 9.0);
-  float t = 110.0;
+  float t = 110.9;
   uint[9] a = uint[](
     uint(t),
-    0xbu,
-    9u,
+    uint(-t),
+    floatBitsToUint(t),
     0xbu ^ 9u,
     0xffffffffu,
     0xffffffffu + uint(t),
