@@ -51,7 +51,7 @@ float periodicNoise21(vec2 p, float period){
 }
 
 float gtable3(vec3 lattice, vec3 p){
-  uvec3 n = floatBitsToUint(lattice);
+  uvec3 n = floatBitsToUint();
   uint ind = (uhash11(uhash11(uhash11(n.x) + n.y) + n.z) >> 28);
   float u = ind < 8u ? p.x : p.y;
   float v = ind < 4u ? p.y : ind == 12u || ind == 14u ? p.x : p.z;
