@@ -9,4 +9,3 @@ void main() {
   vec2 pos = gl_FragCoord.xy / u_resolution.xy;
   fragColor = vec4(0.0, pos, 1.0);
 }
-
