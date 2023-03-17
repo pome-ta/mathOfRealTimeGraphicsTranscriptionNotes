@@ -15,12 +15,11 @@ uvec3 k = uvec3(
 uvec3 u = uvec3(1, 2, 3);
 const uint UINT_MAX = 0xffffffffu;
 
-
 uvec2 uhash22(uvec2 n) {
-  n ^= (n.yx << u.xy);
-  n ^= (n.yx >> u.xy);
+  n ^ = (n.yx << u.xy);
+  n ^ = (n.yx >> u.xy);
   n *= k.xy;
-  n ^= (n.yx << u.xy);
+  n ^ = (n.yx << u.xy);
   return n * k.x;
 }
 
@@ -32,9 +31,9 @@ float hash21(vec2 p) {
 float biLinearInterpolation21(vec2 p) {
   //2 次元値ノイズ : 双線形補間
   vec2 n = floor(p);
-  float[4] v;
-  for (int j = 0; j < 2; j++) {
-    for (int i = 0; i < 2; i++) {
+  float[4]v;
+  for(int j = 0; j < 2; j ++ ) {
+    for(int i = 0; i < 2; i ++ ) {
       v[i + 2 * j] = hash21(n + vec2(i, j)); // マスの 4 頂点のハッシュ値
     }
   }
@@ -45,7 +44,6 @@ float biLinearInterpolation21(vec2 p) {
     f[1]
   );
 }
-
 
 void main() {
   vec2 pos = gl_FragCoord.xy / min(u_resolution.x, u_resolution.y);
