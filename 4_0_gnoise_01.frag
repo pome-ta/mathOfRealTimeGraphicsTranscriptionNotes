@@ -1,4 +1,7 @@
 #version 300 es
+/*
+  gnoise21 のみ
+*/
 precision highp float;
 precision highp int;
 
@@ -27,6 +30,13 @@ float hash21(vec2 p) {
   return float(uhash22(n).x) / float(UINT_MAX);
 }
 
+vec2 hash22(vec2 p) {
+  uvec2 n = floatBitsToUint(p);
+  return vec2(uhash22(n)) / vec2(UINT_MAX);
+}
+
+
+// noise
 float vnoise21(vec2 p) { // 2次元値ノイズ
   vec2 n = floor(p);
   float[4]v;
@@ -48,20 +58,30 @@ float vnoise21(vec2 p) { // 2次元値ノイズ
   );
 }
 
-vec2 grad(vec2 p) { // 数値微分による勾配取得
-  float eps = 0.001; // 微小な増分
-  return 0.5 * (vec2(
-      vnoise21(p + vec2(eps, 0.0)) - vnoise21(p - vec2(eps, 0.0)),
-      vnoise21(p + vec2(0.0, eps)) - vnoise21(p - vec2(0.0, eps))
-    )) / eps;
+float gnoise21(vec2 p) {
+  vec2 n = floor(p);
+  vec2 f = fract(p);
+  float[4]v;
+  for(int j = 0; j < 2; j ++ ) {
+    for(int i = 0; i < 2; i ++ ) {
+      vec2 g = normalize(hash22(n + vec2(i, j)) - vec2(0.5)); // 乱数ベクトルを正規化
+      v[i + 2 * j] = dot(g, f - vec2(i, j)); // 窓関数の係数
+    }
   }
-  
+  f = f * f * f * (10.0 - 15.0 * f + 6.0 * f * f); // 5次エルミート補間
+  return 0.5 * mix(
+    mix(v[0], v[1], f[0]),
+    mix(v[2], v[3], f[0]),
+    f[1]
+  ) + 0.5;
+}
+
 void main() {
   vec2 pos = gl_FragCoord.xy / min(u_resolution.x, u_resolution.y);
   channel = int(gl_FragCoord.x * 2.0 / u_resolution.x);
-  pos = 3.0 * pos + u_time;
-  vec3 rgbColor = vec3(dot(vec2(1), grad(pos))); // 定数ベクトルとの内積
+
+  pos = 16.0 * pos + u_time;
+  vec3 rgbColor = vec3(gnoise21(pos));
   
   fragColor = vec4(rgbColor, 1.0);
-  
 }
