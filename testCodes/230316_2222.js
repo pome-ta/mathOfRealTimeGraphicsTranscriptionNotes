@@ -29,8 +29,7 @@ float hash21(vec2 p) {
   return float(uhash22(n).x) / float(UINT_MAX);
 }
 
-float vnoise21(vec2 p) {
-  //2 次元値ノイズ
+float vnoise21(vec2 p) { // 2次元値ノイズ
   vec2 n = floor(p);
   float[4]v;
   for(int j = 0; j < 2; j ++ ) {
@@ -53,17 +52,14 @@ float vnoise21(vec2 p) {
 vec2 grad(vec2 p) {  // 数値微分による勾配取得
   float eps = 0.001;  // 微小な増分
   return 0.5 * (vec2(
-    vnoise2(),
-  ))
+    vnoise21(p + vec2(eps, 0.0)) - vnoise21(p - vec2(eps, 0.0)),
+    vnoise21(p + vec2(0.0, eps)) - vnoise21(p - vec2(0.0, eps)),
+  )) / eps;
 }
 
 void main() {
   vec2 pos = gl_FragCoord.xy / min(u_resolution.x, u_resolution.y);
-  channel = int(gl_FragCoord.x * 3.0 / u_resolution.x);
-  if (channel < 2) {
-    fragColor = vec4(pos, hash11(pos.x), 1.0);
-  } else {
-    fragColor = vec4(pos, sin(u_time), 1.0);
-  }
-  
+  vec3 rgbColor = vec3(dot(vec2(1.0), grad(pos)));
+  fragColor = vec4(rgbColor, 1.0);
+
 }
