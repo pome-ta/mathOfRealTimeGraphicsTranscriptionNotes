@@ -16,18 +16,18 @@ uvec3 u = uvec3(1, 2, 3);
 const uint UINT_MAX = 0xffffffffu;
 
 uvec2 uhash22(uvec2 n) {
-  n ^ = (n.yx << u.xy);
-  n ^ = (n.yx >> u.xy);
+  n ^= (n.yx << u.xy);
+  n ^= (n.yx >> u.xy);
   n *= k.xy;
-  n ^ = (n.yx << u.xy);
+  n ^= (n.yx << u.xy);
   return n * k.x;
 }
 
 uvec3 uhash33(uvec3 n) {
-  n ^ = (n.yzx << u);
-  n ^ = (n.yzx >> u);
+  n ^= (n.yzx << u);
+  n ^= (n.yzx >> u);
   n *= k;
-  n ^ = (n.yzx << u);
+  n ^= (n.yzx << u);
   return n * k;
 }
 
