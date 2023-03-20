@@ -12,6 +12,28 @@ const float PI = acos(-1.0);
 
 int channel;
 
+vec3 hsv2rgb(in vec3 c) {
+  vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
+  return c.z * mix(vec3(1.0), rgb, c.y);
+}
+
+float atan2(float y, float x){
+  if (x == 0.0){
+    return sign(y) * PI / 2.0;
+  } else {
+    return atan(y, x);
+  }
+}
+
+vec2 xy2pol(vec2 xy){
+  return vec2(atan2(xy.y, xy.x), length(xy));
+}
+
+vec2 pol2xy(vec2 pol){
+  return pol.y * vec2(cos(pol.x), sin(pol.x));
+}
+
+
 //start hash
 uvec3 k = uvec3(0x456789abu, 0x6789ab45u, 0x89ab4567u);
 uvec3 u = uvec3(1, 2, 3);
@@ -145,10 +167,28 @@ void main() {
   vec3 rgbColor;
   
   channel = int(2.0 * gl_FragCoord.x / u_resolution.x);
-  pos = 10.0 * pos + (u_time / 10.0);
+  pos = 1.0 * pos + (u_time / 33.0);
   
-  float g = abs(mod(cos(u_time * PI / 10.0), 10.0) - 5.0);
-  rgbColor = vec3(warp21(pos, g));
+  float g = abs(mod(cos(u_time * PI / 17.0), 10.0) - 5.0);
+  float val = 0.0;
+  for(int i = 0; i < 4; i ++ ) {
+    val = pnoise21(pos + g * val);
+  }
+  float pn =  val;
+  val = 0.0;
+  for(int i = 0; i < 4; i ++ ) {
+    val = fbm21(pos + g * val, 0.5);
+  }
+  
+  float fbm = val;
+  float mx = mix(fbm, 0.75, -pn);
+  float my = mix(pn, 0.25, -fbm);
+  
+  rgbColor = vec3(cos(mx * u_time), sin(my * u_time * PI), 1.0);
+  rgbColor = hsv2rgb(rgbColor);
+  //rgbColor = vec3(warp21(pos, g));
+  //float warp = warp21(pos, g);
+  //rgbColor = hsv2rgb(vec3(0.5 * warp + 0.5, 0.75, 1.0));
   fragColor = vec4(rgbColor, 1.0);
 }
 
