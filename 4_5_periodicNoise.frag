@@ -10,19 +10,18 @@ out vec4 fragColor;
 
 ivec2 channel;
 
-
 const float PI = acos(-1.0);
 
 // start xy<->pol
-float atan2(float y, float x){
+float atan2(float y, float x) {
   return x == 0.0 ? sign(y) * PI / 2.0 : atan(y, x);
 }
 
-vec2 xy2pol(vec2 xy){
+vec2 xy2pol(vec2 xy) {
   return vec2(atan2(xy.x, xy.y), length(xy));
 }
 
-vec2 pol2xy(vec2 pol){
+vec2 pol2xy(vec2 pol) {
   return pol.y * vec2(cos(pol.x), sin(pol.x));
 }
 //end xy<->pol
@@ -106,7 +105,6 @@ float gnoise21(vec2 p) {
   ) + 0.5;
 }
 
-
 float gnoise31(vec3 p) {
   vec3 n = floor(p);
   vec3[8]g;
@@ -140,9 +138,6 @@ float gnoise31(vec3 p) {
   return 0.5 * mix(w[0], w[1], f[2]) + 0.5;
 }
 
-
-
-
 //end gnoise
 
 //start pnoise
@@ -171,9 +166,9 @@ float pnoise21(vec2 p) {
   ) + 0.5;
 }
 
-float gtable3(vec3 lattice, vec3 p) {   // lattice:格子点
-  uvec3 n = floatBitsToUint(lattice);   // 格子点の値をビット列に変換
-  uint ind = uhash33(n).x >> 28;        // hash 値の桁を落とす
+float gtable3(vec3 lattice, vec3 p) { // lattice:格子点
+  uvec3 n = floatBitsToUint(lattice); // 格子点の値をビット列に変換
+  uint ind = uhash33(n).x >> 28; // hash 値の桁を落とす
   float u = ind < 8u ? p.x : p.y;
   float v = ind < 4u ? p.y : ind == 12u || ind == 14u ? p.x : p.z;
   return ((ind & 1u) == 0u ? u: - u) + ((ind & 2u) == 0u ? v : -v);
@@ -186,7 +181,7 @@ float pnoise31(vec3 p) {
   for(int _k = 0; _k < 2; _k ++ ) {
     for(int _j = 0; _j < 2; _j ++ ) {
       for(int _i = 0; _i < 2; _i ++ ) {
-        v[_i + 2 * _j + 4 * _k] = gtable3(n + vec3(_i, _j, _k), f - vec3(_i, _j, _k)) * (1.0 / sqrt(2.0));// * 0.70710678;
+        v[_i + 2 * _j + 4 * _k] = gtable3(n + vec3(_i, _j, _k), f - vec3(_i, _j, _k)) * (1.0 / sqrt(2.0)); // * 0.70710678;
       }
     }
   }
@@ -203,14 +198,12 @@ float pnoise31(vec3 p) {
 }
 //end pnoise
 
-
-
-float periodicNoise21(vec2 p, float period){  // period: 周期
+float periodicNoise21(vec2 p, float period) { // period: 周期
   vec2 n = floor(p);
   vec2 f = fract(p);
-  float[4] v;
-  for (int _j = 0; _j < 2; _j ++){
-    for (int _i = 0; _i < 2; _i++){
+  float[4]v;
+  for(int _j = 0; _j < 2; _j ++ ) {
+    for(int _i = 0; _i < 2; _i ++ ) {
       // mod 関数で周期性を持たせたハッシュ値
       v[_i + 2 * _j] = gtable2(mod(n + vec2(_i, _j), period), f - vec2(_i, _j));
     }
@@ -219,29 +212,28 @@ float periodicNoise21(vec2 p, float period){  // period: 周期
   return 0.5 * mix(mix(v[0], v[1], f[0]), mix(v[2], v[3], f[0]), f[1]) + 0.5;
 }
 
-float periodicNoise31(vec3 p, float period){
+float periodicNoise31(vec3 p, float period) {
   vec3 n = floor(p);
   vec3 f = fract(p);
-  float[8] v;
-  for (int _k = 0; _k < 2; _k++ ){
-    for (int _j = 0; _j < 2; _j++ ){
-      for (int _i = 0; _i < 2; _i++){
+  float[8]v;
+  for(int _k = 0; _k < 2; _k ++ ) {
+    for(int _j = 0; _j < 2; _j ++ ) {
+      for(int _i = 0; _i < 2; _i ++ ) {
         v[_i + 2 * _j + 4 * _k] = gtable3(mod(n + vec3(_i, _j, _k), period), f - vec3(_i, _j, _k)) * 0.70710678;
       }
     }
   }
   f = f * f * f * (10.0 - 15.0 * f + 6.0 * f * f);
-  float[2] w;
-  for (int _i = 0; _i < 2; _i++){
+  float[2]w;
+  for(int _i = 0; _i < 2; _i ++ ) {
     w[_i] = mix(
-      mix(v[4 * _i + 0], v[4 * _i + 1], f[0]), 
+      mix(v[4 * _i + 0], v[4 * _i + 1], f[0]),
       mix(v[4 * _i + 2], v[4 * _i + 3], f[0]),
       f[1]
     );
   }
   return 0.5 * mix(w[0], w[1], f[2]) + 0.5;
 }
-
 
 void main() {
   vec2 pos = gl_FragCoord.xy / u_resolution.xy;
