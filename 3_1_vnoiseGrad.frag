@@ -56,12 +56,13 @@ vec2 grad(vec2 p) { // 数値微分による勾配取得
     )) / eps;
   }
   
-void main() {
-  vec2 pos = gl_FragCoord.xy / min(u_resolution.x, u_resolution.y);
-  channel = int(gl_FragCoord.x * 2.0 / u_resolution.x);
-  pos = 3.0 * pos + u_time;
-  vec3 rgbColor = vec3(dot(vec2(1), grad(pos))); // 定数ベクトルとの内積
+  void main() {
+    vec2 pos = gl_FragCoord.xy / min(u_resolution.x, u_resolution.y);
+    channel = int(gl_FragCoord.x * 2.0 / u_resolution.x);
+    pos = 3.0 * pos + u_time;
+    vec3 rgbColor = vec3(dot(vec2(1), grad(pos))); // 定数ベクトルとの内積
+    
+    fragColor = vec4(rgbColor, 1.0);
+    
+  }
   
-  fragColor = vec4(rgbColor, 1.0);
-  
-}

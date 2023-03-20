@@ -122,10 +122,6 @@ float gnoise31(vec3 p) {
   return 0.5 * mix(w[0], w[1], f[2]) + 0.5;
 }
 
-
-
-
-
 //end gnoise
 
 //start pnoise
@@ -154,9 +150,9 @@ float pnoise21(vec2 p) {
   ) + 0.5;
 }
 
-float gtable3(vec3 lattice, vec3 p) {   // lattice:格子点
-  uvec3 n = floatBitsToUint(lattice);   // 格子点の値をビット列に変換
-  uint ind = uhash33(n).x >> 28;        // hash 値の桁を落とす
+float gtable3(vec3 lattice, vec3 p) { // lattice:格子点
+  uvec3 n = floatBitsToUint(lattice); // 格子点の値をビット列に変換
+  uint ind = uhash33(n).x >> 28; // hash 値の桁を落とす
   float u = ind < 8u ? p.x : p.y;
   float v = ind < 4u ? p.y : ind == 12u || ind == 14u ? p.x : p.z;
   return ((ind & 1u) == 0u ? u: - u) + ((ind & 2u) == 0u ? v : -v);
@@ -169,7 +165,7 @@ float pnoise31(vec3 p) {
   for(int _k = 0; _k < 2; _k ++ ) {
     for(int _j = 0; _j < 2; _j ++ ) {
       for(int _i = 0; _i < 2; _i ++ ) {
-        v[_i + 2 * _j + 4 * _k] = gtable3(n + vec3(_i, _j, _k), f - vec3(_i, _j, _k)) * (1.0 / sqrt(2.0));// * 0.70710678;
+        v[_i + 2 * _j + 4 * _k] = gtable3(n + vec3(_i, _j, _k), f - vec3(_i, _j, _k)) * (1.0 / sqrt(2.0)); // * 0.70710678;
       }
     }
   }
@@ -194,6 +190,6 @@ void main() {
   
   float v = channel[0] == 0 ? channel[1] == 0 ? gnoise21(pos) : gnoise31(vec3(pos, u_time)) : channel[1] == 0 ? pnoise21(pos) : pnoise31(vec3(pos, u_time)); fragColor.rgb = vec3(v);
   fragColor.a = 1.0;
-
+  
 }
 

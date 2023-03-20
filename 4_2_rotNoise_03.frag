@@ -1,6 +1,6 @@
 #version 300 es
 /*
-  rot X, Y, Z 3種類
+rot X, Y, Z 3種類
 */
 precision highp float;
 precision highp int;
@@ -214,7 +214,7 @@ void main() {
   channel = int(gl_FragCoord.x * 3.0 / u_resolution);
   
   vec3 rgbColor;
-
+  
   rgbColor = vec3(rotNoise31(vec3(pos, u_time), u_time));
   fragColor = vec4(rgbColor, 1.0);
 }

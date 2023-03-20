@@ -1,6 +1,6 @@
 #version 300 es
 /*
-  gnoise21 のみ
+gnoise21 のみ
 */
 precision highp float;
 precision highp int;
@@ -34,7 +34,6 @@ vec2 hash22(vec2 p) {
   uvec2 n = floatBitsToUint(p);
   return vec2(uhash22(n)) / vec2(UINT_MAX);
 }
-
 
 // noise
 float vnoise21(vec2 p) { // 2次元値ノイズ
@@ -79,7 +78,7 @@ float gnoise21(vec2 p) {
 void main() {
   vec2 pos = gl_FragCoord.xy / min(u_resolution.x, u_resolution.y);
   channel = int(gl_FragCoord.x * 2.0 / u_resolution.x);
-
+  
   pos = 16.0 * pos + u_time;
   vec3 rgbColor = vec3(gnoise21(pos));
   

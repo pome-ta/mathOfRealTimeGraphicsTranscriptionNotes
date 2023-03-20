@@ -25,10 +25,10 @@ uvec2 uhash22(uvec2 n) {
 }
 
 uvec3 uhash33(uvec3 n) {
-  n ^ = (n.yzx << u);
-  n ^ = (n.yzx >> u);
+  n ^= (n.yzx << u);
+  n ^= (n.yzx >> u);
   n *= k;
-  n ^ = (n.yzx << u);
+  n ^= (n.yzx << u);
   return n * k;
 }
 

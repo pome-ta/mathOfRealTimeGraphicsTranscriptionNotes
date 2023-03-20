@@ -26,10 +26,10 @@ vec2 pol2xy(vec2 pol) {
 }
 
 vec3 tex(vec2 st) {
-  vec3[3] col3 = vec3[](
+  vec3[3]col3 = vec3[](
     vec3(0.0, 0.0, 1.0),
     vec3(1.0, 0.0, 0.0),
-  vec3(1.0)
+    vec3(1.0)
   );
   st.s = st.s / PI + 1.0;
   int ind = int(st.s);
@@ -37,13 +37,13 @@ vec3 tex(vec2 st) {
   return mix(col3[2], col, st.t);
 }
 
-int channel;  // 表示するシェーダーのチャンネル
+int channel; // 表示するシェーダーのチャンネル
 void main() {
   vec2 pos = gl_FragCoord.xy / u_resolution.xy;
   
   pos = 2.0 * pos.xy - vec2(1.0);
   pos = xy2pol(pos);
-
+  
   fragColor = vec4(tex(pos), 1.0);
 }
 

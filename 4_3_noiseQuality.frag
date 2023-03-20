@@ -63,7 +63,7 @@ void main() {
   vec2 pos = gl_FragCoord.xy / min(u_resolution.x, u_resolution.y);
   channel = int(gl_FragCoord.x * 2.0 / u_resolution.x);
   pos = 18.0 * pos + u_time;
-
+  
   float v = gnoise21(pos);
   if (v > 0.85 || v < 0.15) {
     fragColor.rgb = vec3(1.0, 0.0, 0.0);

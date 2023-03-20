@@ -1,7 +1,7 @@
 #version 300 es
 
 /*
-  rotNoise21 のみ
+rotNoise21 のみ
 */
 precision highp float;
 precision highp int;

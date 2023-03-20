@@ -48,7 +48,6 @@ vec3 hash33(vec3 p) {
 
 // noise
 
-
 float gnoise21(vec2 p) {
   vec2 n = floor(p);
   vec2 f = fract(p);
@@ -91,11 +90,10 @@ float gnoise31(vec3 p) {
   return 0.5 * mix(w[0], w[1], f[2]) + 0.5;
 }
 
-
 void main() {
   vec2 pos = gl_FragCoord.xy / min(u_resolution.x, u_resolution.y);
   channel = int(gl_FragCoord.x * 2.0 / u_resolution.x);
-
+  
   pos = 12.0 * pos + u_time;
   vec3 rgbColor;
   
@@ -104,9 +102,7 @@ void main() {
   } else {
     rgbColor = vec3(gnoise31(vec3(pos, u_time)));
   }
-   
   
   fragColor = vec4(rgbColor, 1.0);
 }
-
 
