@@ -125,9 +125,7 @@ float fbm21(vec2 p, float g) { // 2変数 fBM
 }
 
 float base21(vec2 p) { // ドメインワービングの素材となる関数
-  // 左: fBM (G=0.5)
-  // 右: パーリンノイズ
-  // return channel == 0 ? fbm21(p, 0.5) : pnoise21(p);
+  // return channel == 0 ? fbm21(p, 0.5) : pnoise21(p); // 左: fBM (G=0.5) // 右: パーリンノイズ
   return mod(u_time, 20.0) < 10.0 ? fbm21(p, 0.5) : pnoise21(p);
 }
 
@@ -142,7 +140,12 @@ float warp21(vec2 p, float g) {
 float converter(float v) { // 階調変換関数
   float time = abs(mod(0.1 * u_time, 2.0) - 1.0); // [0, 1] 区間を動く変数
   float n = floor(8.0 * time); // ポスタリゼーションの階調数
-  return channel == ivec2(1, 0) ? step(time, v) : // 中央下: (a) 二階調化
+  return \
+  channel == ivec2(1, 0) ? step(time, v) : // 中央下: (a) 二階調化
+  channel == ivec2(2, 0) ? (floor(n * v) + step(0.5, fract(n * v))) / n : // 右下: (b) ポスタリゼーション
+  channel == ivec2(0, 1) ? smoothstep(0.5 * (1.0 - time), 0.5 * (1.0 + time), v) : // 左上: (c) s字トーンカーブ
+  channel == ivec2(1, 1) ? pow(v, 2.0 * time) : // 中央上: (d) ガンマ補正
+  channel == ivec2(2, 1) ? 0.5 * sin(4.0 * PI * v + u_time) + 0.5 : // 右上: (e) ソラリゼーション
   v; // 左下: 元画像
 }
 
@@ -152,7 +155,6 @@ void main() {
   channel = ivec2(vec2(3, 2) * gl_FragCoord.xy / u_resolution.xy);
   pos = 10.0 * pos + u_time;
   
-  vec3 rgbColor;
-  rgbColor = vec3(converter(warp21(pos, 1.0)));
+  vec3 rgbColor = vec3(converter(warp21(pos, 1.0)));
   fragColor = vec4(rgbColor, 1.0);
 }
