@@ -158,11 +158,11 @@ float converter(float v) { // 階調変換関数
   solarisation = 0.5 * sin(4.0 * PI * v + u_time) + 0.5;
   master = v;
   
-  return channel == ivec2(1, 0) ? twoTone :
-         channel == ivec2(2, 0) ? posterization :
-         channel == ivec2(0, 1) ? toneCurve :
-         channel == ivec2(1, 1) ? gammaCorrection :
-         channel == ivec2(2, 1) ? solarisation : 
+  return channel == ivec2(1, 0) ? twoTone :\
+         channel == ivec2(2, 0) ? posterization :\
+         channel == ivec2(0, 1) ? toneCurve :\
+         channel == ivec2(1, 1) ? gammaCorrection :\
+         channel == ivec2(2, 1) ? solarisation :\
          master; 
 }
 
